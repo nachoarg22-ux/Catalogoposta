@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Posta — Catálogo Chinera</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--azul:#7d9bc4;--azul-dark:#5a7ba8;--azul-pale:#c8d8ec;--azul-bg:#e8eef6;--marron:#4a2210;--marron-light:#7a4a30;--blanco:#f8f6f2;--gris:#a09880;--texto:#2a1a0e}
+body{background:var(--blanco);color:var(--texto);font-family:'DM Sans',sans-serif;min-height:100vh}
+.fade{opacity:0;transform:translateY(8px);animation:up 0.45s ease forwards}
+@keyframes up{to{opacity:1;transform:none}}
+.fade:nth-child(1){animation-delay:.03s}.fade:nth-child(2){animation-delay:.08s}.fade:nth-child(3){animation-delay:.13s}.fade:nth-child(4){animation-delay:.18s}.fade:nth-child(5){animation-delay:.23s}.fade:nth-child(6){animation-delay:.28s}.fade:nth-child(7){animation-delay:.33s}.fade:nth-child(8){animation-delay:.38s}.fade:nth-child(n+9){animation-delay:.43s}
+.header{background:var(--azul);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.logo-area{display:flex;align-items:center;gap:10px}
+.logo-img{height:40px;width:auto;object-fit:contain}
+.logo-sep{width:1px;height:28px;background:rgba(255,255,255,0.2)}
+.logo-sub{font-size:8px;letter-spacing:2px;color:rgba(255,255,255,0.5);text-transform:uppercase;line-height:1.6}
+.back-btn{display:none;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:var(--blanco);font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:6px 12px;cursor:pointer;transition:background 0.2s}
+.back-btn:hover{background:rgba(255,255,255,0.25)}.back-btn.on{display:block}
+.nav{background:var(--azul);display:flex;padding:0 20px;border-top:1px solid rgba(255,255,255,0.15);overflow-x:auto;position:sticky;top:68px;z-index:49}
+.nbtn{background:none;border:none;border-bottom:2px solid transparent;font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5);padding:11px 12px;cursor:pointer;transition:all 0.2s;white-space:nowrap;margin-bottom:-1px}
+.nbtn:hover{color:rgba(255,255,255,0.8)}.nbtn.on{color:#fff;border-bottom-color:#fff}
+.view{display:none}.view.on{display:block}
+.grid-wrap{padding:20px}
+.grid-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px}
+.grid-title{font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--marron)}
+.grid-n{font-size:9px;letter-spacing:2px;color:var(--gris);text-transform:uppercase}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px 14px}
+.card{cursor:pointer}
+.card-img{width:100%;aspect-ratio:3/4;background:var(--azul-bg);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;transition:background 0.3s}
+.card:hover .card-img{background:var(--azul-pale)}
+.card-photo{width:100%;height:100%;object-fit:cover;transition:transform 0.4s}
+.card:hover .card-photo{transform:scale(1.04)}
+.card-emoji{font-size:44px;opacity:0.2}
+.tag{position:absolute;top:8px;left:8px;font-size:7px;letter-spacing:2px;text-transform:uppercase;padding:2px 6px}
+.tag-new{background:var(--marron);color:var(--blanco)}
+.tag-last{background:transparent;border:1px solid var(--azul-dark);color:var(--azul-dark)}
+.card-info{padding:8px 0 0}
+.card-name{font-family:'Playfair Display',serif;font-size:12px;color:var(--marron);margin-bottom:1px;line-height:1.3}
+.card-price{font-size:12px;font-weight:300;color:var(--texto)}
+.card-sizes{font-size:8px;letter-spacing:1px;color:var(--gris);margin-top:2px}
+.card-colors{display:flex;gap:3px;margin-top:4px}
+.card-cdot{width:8px;height:8px;border-radius:50%;border:1px solid rgba(0,0,0,0.1)}
+.detail-wrap{padding:20px 20px 60px}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+.main-img{width:100%;aspect-ratio:3/4;background:var(--azul-bg);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.main-img img{width:100%;height:100%;object-fit:cover}
+.thumbs{display:flex;gap:6px;margin-top:6px}
+.thumb{width:48px;height:60px;background:var(--azul-bg);border:2px solid transparent;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;opacity:0.5;transition:all 0.2s;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb:hover{opacity:0.75}.thumb.on{opacity:1;border-color:var(--azul-dark)}
+.video-block{margin-top:8px;background:var(--azul-bg);border-left:3px solid var(--azul);padding:10px 12px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background 0.2s}
+.video-block:hover{background:var(--azul-pale)}
+.play-btn{width:26px;height:26px;border-radius:50%;background:var(--azul);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;font-size:9px}
+.video-txt-name{font-size:10px;color:var(--marron);margin-bottom:1px}
+.video-txt-sub{font-size:8px;letter-spacing:1px;color:var(--gris);text-transform:uppercase}
+.d-cat{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--azul-dark);margin-bottom:5px}
+.d-name{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;line-height:1.1;color:var(--marron);margin-bottom:4px}
+.d-price{font-size:20px;font-weight:300;color:var(--texto);margin-bottom:14px}
+.chinera-badge{display:inline-flex;align-items:center;gap:5px;background:var(--azul-bg);border:1px solid var(--azul-pale);padding:3px 8px;margin-bottom:12px;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--azul-dark)}
+.sep{border:none;border-top:1px solid var(--azul-pale);margin:14px 0}
+.lbl{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gris);margin-bottom:7px}
+.sizes{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+.sz{border:1px solid var(--azul-pale);font-size:10px;letter-spacing:1px;padding:5px 10px;cursor:pointer;color:var(--marron-light);transition:all 0.2s;background:transparent;font-family:'DM Sans',sans-serif}
+.sz:hover{border-color:var(--azul-dark)}.sz.on{border-color:var(--azul-dark);background:var(--azul-bg);color:var(--marron)}
+.colors-detail{display:flex;gap:6px;margin-bottom:16px;align-items:center;flex-wrap:wrap}
+.cdot-detail{width:18px;height:18px;border-radius:50%;border:2px solid transparent;outline:2px solid transparent;outline-offset:2px;cursor:pointer;transition:outline-color 0.2s;flex-shrink:0}
+.cdot-detail.on{outline-color:var(--azul-dark)}
+.color-name{font-size:10px;color:var(--gris);margin-left:2px}
+.d-desc{font-size:12px;font-weight:300;line-height:1.7;color:var(--marron-light);margin-bottom:18px}
+.btn-primary{width:100%;background:var(--marron);color:var(--blanco);border:none;padding:13px;font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;margin-bottom:7px;transition:background 0.2s}
+.btn-primary:hover{background:var(--marron-light)}
+.btn-wa{width:100%;background:transparent;color:var(--azul-dark);border:1px solid var(--azul-pale);padding:11px;font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:all 0.2s;text-decoration:none}
+.btn-wa:hover{border-color:var(--azul-dark);color:var(--marron)}
+@media(max-width:600px){.detail-grid{grid-template-columns:1fr}.d-name{font-size:22px}}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo-area">
+    <!-- Reemplazá "logo.png" con el nombre de tu archivo de logo -->
+    <img class="logo-img" src="logo.png" alt="Posta" onerror="this.style.display='none'"/>
+    <div class="logo-sep"></div>
+    <div class="logo-sub">Showroom · Bahía Blanca<br>Chinera exclusivo</div>
+  </div>
+  <button class="back-btn" id="backBtn" onclick="goGrid()">← Volver</button>
+</header>
+
+<nav class="nav" id="navEl">
+  <button class="nbtn on" data-cat="todos">Todo</button>
+  <button class="nbtn" data-cat="pantalones">Pantalones</button>
+  <button class="nbtn" data-cat="remeras">Remeras</button>
+  <button class="nbtn" data-cat="buzos">Buzos</button>
+  <button class="nbtn" data-cat="camperas">Camperas</button>
+  <button class="nbtn" data-cat="camisas">Camisas</button>
+  <button class="nbtn" data-cat="vestidos">Vestidos</button>
+  <button class="nbtn" data-cat="accesorios">Accesorios</button>
+  <button class="nbtn" data-cat="calzado">Calzado</button>
+</nav>
+
+<div class="view on" id="gridView">
+  <div class="grid-wrap">
+    <div class="grid-head">
+      <span class="grid-title" id="gridTitle">Colección completa</span>
+      <span class="grid-n" id="gridN"></span>
+    </div>
+    <div class="grid" id="gridEl"></div>
+  </div>
+</div>
+
+<div class="view" id="detailView">
+  <div class="detail-wrap">
+    <div class="detail-grid">
+      <div>
+        <div class="main-img" id="mainImg"></div>
+        <div class="thumbs" id="thumbsEl"></div>
+        <div class="video-block" id="videoBlock">
+          <div class="play-btn">▶</div>
+          <div>
+            <div class="video-txt-name" id="videoName">Ver reel del producto</div>
+            <div class="video-txt-sub">Instagram · @posta.bb</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="d-cat" id="dCat"></div>
+        <div class="d-name" id="dName"></div>
+        <div class="d-price" id="dPrice"></div>
+        <div class="chinera-badge">✦ Chinera · Industria Argentina</div>
+        <hr class="sep">
+        <div class="lbl">Talles disponibles</div>
+        <div class="sizes" id="sizesEl"></div>
+        <div class="lbl">Color</div>
+        <div class="colors-detail" id="colorsEl"></div>
+        <hr class="sep">
+        <p class="d-desc" id="dDesc"></p>
+        <button class="btn-primary" id="btnConsultar">Consultar disponibilidad</button>
+        <!-- Reemplazá TUNUMERO con tu número de WhatsApp -->
+        <a class="btn-wa" id="btnWa" href="https://wa.me/TUNUMERO" target="_blank">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          Escribir por WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// =============================================
+// CONFIGURACIÓN — editá estos valores
+// =============================================
+const WHATSAPP = "5492914000000"; // Tu número con código de país (54 = Argentina, 291 = Bahía Blanca)
+const INSTAGRAM_BASE = "https://www.instagram.com/posta.bb";
+
+// =============================================
+// PRODUCTOS — cargados desde tu Excel
+// =============================================
+const productos = [
+  {id:1,cat:'accesorios',name:"Manta Chinera",price:'$55.000',emoji:'🧣',tag:null,sizes:["U"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Manta Chinera · Industria Argentina · Unisex · Talle único.',photos:[]},
+  {id:2,cat:'accesorios',name:"GORRA CHIN #3",price:'$44.000',emoji:'🧢',tag:null,sizes:["U"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Gorra Chinera · Industria Argentina · Talle único.',photos:[]},
+  {id:3,cat:'accesorios',name:"GORRA CHIN #4",price:'$44.000',emoji:'🧢',tag:null,sizes:["U"],colorsNames:["Negro"],colors:["#1a1a1a"],desc:'Gorra Chinera · Industria Argentina · Talle único.',photos:[]},
+  {id:4,cat:'accesorios',name:"MEDIAS",price:'Consultar',emoji:'🧦',tag:null,sizes:["U"],colorsNames:["Azul","Gris"],colors:["#7d9bc4","#888"],desc:'Medias Chinera · Industria Argentina · Talle único.',photos:[]},
+  {id:5,cat:'accesorios',name:"GORRO LANA #1",price:'$44.000',emoji:'🎩',tag:null,sizes:["U"],colorsNames:["Avellana","Gris","Negro"],colors:["#c8a878","#888","#1a1a1a"],desc:'Gorro de lana · Chinera · Industria Argentina · Talle único.',photos:[]},
+  {id:6,cat:'accesorios',name:"MOCHI #1",price:'$105.600',emoji:'🎒',tag:null,sizes:["U"],colorsNames:["Negro"],colors:["#1a1a1a"],desc:'Mochila Chinera · Industria Argentina.',photos:[]},
+  {id:7,cat:'accesorios',name:"TOTE CHINERA #1",price:'$132.000',emoji:'👜',tag:null,sizes:["U"],colorsNames:["Negro"],colors:["#1a1a1a"],desc:'Tote bag Chinera · Industria Argentina.',photos:[]},
+  {id:8,cat:'accesorios',name:"PONCHIN CON CORDERITO",price:'Consultar',emoji:'🧣',tag:null,sizes:["U"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Poncho con corderito · Chinera · Industria Argentina.',photos:[]},
+  {id:9,cat:'buzos',name:"BUZO CHIN AZUL",price:'$132.000',emoji:'🧥',tag:null,sizes:["M"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Buzo Chinera · Algodón · Industria Argentina · Unisex.',photos:[]},
+  {id:10,cat:'buzos',name:"BUZO M/C #3",price:'$104.500',emoji:'🧥',tag:null,sizes:["M"],colorsNames:["Blanco","Crudo"],colors:["#f5f0e8","#d4c9a8"],desc:'Buzo manga corta · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:11,cat:'buzos',name:"BUZO M/C #2",price:'$88.000',emoji:'🧥',tag:null,sizes:["M"],colorsNames:["Negro","Oxido"],colors:["#1a1a1a","#b85a2a"],desc:'Buzo manga corta · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:12,cat:'buzos',name:"BUZO BOXY #1",price:'$121.000',emoji:'🧥',tag:null,sizes:["S","M","L"],colorsNames:["Blanco","Crudo","Negro"],colors:["#f5f0e8","#d4c9a8","#1a1a1a"],desc:'Buzo boxy · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:13,cat:'buzos',name:"BUZO CLASICO #1",price:'$104.500',emoji:'🧥',tag:null,sizes:["M","L"],colorsNames:["Avellana","Negro"],colors:["#c8a878","#1a1a1a"],desc:'Buzo clásico · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:14,cat:'buzos',name:"BUZO OVER #3",price:'$104.500',emoji:'🧥',tag:null,sizes:["S","L"],colorsNames:["Blanco","Crudo"],colors:["#f5f0e8","#d4c9a8"],desc:'Buzo oversize · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:15,cat:'buzos',name:"BUZO M/C BATIK",price:'$110.000',emoji:'🧥',tag:null,sizes:["S","M"],colorsNames:["Batik"],colors:["#6a7a5a"],desc:'Buzo batik · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:16,cat:'buzos',name:"BUZO BOXY CIERRE",price:'$137.500',emoji:'🧥',tag:null,sizes:["M"],colorsNames:["Negro"],colors:["#1a1a1a"],desc:'Buzo boxy con cierre · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:17,cat:'buzos',name:"BUZO OVER #1",price:'$104.500',emoji:'🧥',tag:null,sizes:["M"],colorsNames:["Negro"],colors:["#1a1a1a"],desc:'Buzo oversize · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:18,cat:'calzado',name:"ZAPATILLA CHIN NEGRO",price:'Consultar',emoji:'👟',tag:null,sizes:["37","38","39"],colorsNames:["Negro"],colors:["#1a1a1a"],desc:'Zapatilla Chinera · Industria Argentina.',photos:[]},
+  {id:19,cat:'calzado',name:"ZUECO NG",price:'$143.000',emoji:'👠',tag:null,sizes:["37","38"],colorsNames:["Negro"],colors:["#1a1a1a"],desc:'Zueco negro · Chinera · Industria Argentina.',photos:[]},
+  {id:20,cat:'calzado',name:"ZUECO CHIN NEGRO",price:'Consultar',emoji:'👠',tag:null,sizes:["39","40"],colorsNames:["Negro"],colors:["#1a1a1a"],desc:'Zueco negro · Chinera · Industria Argentina.',photos:[]},
+  {id:21,cat:'camisas',name:"CHIN MANGA LARGA #2",price:'$110.000',emoji:'👔',tag:null,sizes:["M"],colorsNames:["Negro"],colors:["#1a1a1a"],desc:'Camisa manga larga · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:22,cat:'camisas',name:"CHIN MANGA CORTA #3",price:'$110.000',emoji:'👔',tag:null,sizes:["L"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Camisa manga corta · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:23,cat:'camperas',name:"CHALECO CHIN COMBINADO",price:'$132.000',emoji:'🦺',tag:null,sizes:["M"],colorsNames:["Celeste"],colors:["#a8c8e8"],desc:'Chaleco combinado · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:24,cat:'camperas',name:"CAMPERA CHIN OXIDO",price:'$165.000',emoji:'🧥',tag:null,sizes:["M"],colorsNames:["Oxido"],colors:["#b85a2a"],desc:'Campera oxido · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:25,cat:'camperas',name:"CHALECO CHIN #2",price:'$104.500',emoji:'🦺',tag:null,sizes:["S"],colorsNames:["Crudo"],colors:["#d4c9a8"],desc:'Chaleco · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:26,cat:'camperas',name:"CAMPERA CHIN #2",price:'$130.600',emoji:'🧥',tag:null,sizes:["L"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Campera · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:27,cat:'camperas',name:"CAMISACO CUADRILLE",price:'Consultar',emoji:'🧥',tag:null,sizes:["S","L"],colorsNames:["Marron"],colors:["#7a4a30"],desc:'Camisaco cuadrille · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:28,cat:'camperas',name:"CAMPERA BOMBER",price:'Consultar',emoji:'🧥',tag:null,sizes:["M","L"],colorsNames:["Celeste"],colors:["#a8c8e8"],desc:'Campera bomber · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:29,cat:'camperas',name:"CAMPERA OVER RAIZ",price:'Consultar',emoji:'🧥',tag:null,sizes:["M"],colorsNames:["Oxido"],colors:["#b85a2a"],desc:'Campera oversize · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:30,cat:'camperas',name:"CAMISACO CARPINTERO",price:'Consultar',emoji:'🧥',tag:null,sizes:["S","M","L"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Camisaco carpintero · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:31,cat:'pantalones',name:"CHIN BAGGY #1",price:'$121.000',emoji:'👖',tag:null,sizes:["XS","S","XL"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Jean baggy · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:32,cat:'pantalones',name:"WIDE CARGO #2",price:'$129.800',emoji:'👖',tag:null,sizes:["M","L"],colorsNames:["Marron"],colors:["#7a4a30"],desc:'Wide cargo · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:33,cat:'pantalones',name:"CHIN BAGGY #2",price:'$126.500',emoji:'👖',tag:null,sizes:["S","L"],colorsNames:["Negro"],colors:["#1a1a1a"],desc:'Jean baggy · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:34,cat:'pantalones',name:"CHIN OVER TIZA",price:'$99.000',emoji:'👖',tag:null,sizes:["M","L","XXL","XXXL"],colorsNames:["Blanco"],colors:["#e8e4dc"],desc:'Over tiza · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:35,cat:'pantalones',name:"CHIN WIDE #2",price:'$121.000',emoji:'👖',tag:null,sizes:["S","M","L"],colorsNames:["Blanco"],colors:["#e8e4dc"],desc:'Wide leg · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:36,cat:'pantalones',name:"CHIN RECTO CLASICO #2",price:'$132.000',emoji:'👖',tag:null,sizes:["L","XL","XXL"],colorsNames:["Negro"],colors:["#1a1a1a"],desc:'Recto clásico · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:37,cat:'pantalones',name:"CHIN WIDE CARGO #3",price:'$137.500',emoji:'👖',tag:null,sizes:["M","XL","XXL"],colorsNames:["Negro"],colors:["#1a1a1a"],desc:'Wide cargo · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:38,cat:'pantalones',name:"CHIN WIDE CARGO VERDE",price:'$137.500',emoji:'👖',tag:null,sizes:["XS","S","M"],colorsNames:["Verde"],colors:["#4a6a3a"],desc:'Wide cargo verde · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:39,cat:'pantalones',name:"JARDINERO #1",price:'$121.000',emoji:'👖',tag:null,sizes:["L"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Jardinero · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:40,cat:'pantalones',name:"BERMUDA BAGGY",price:'$93.500',emoji:'👖',tag:null,sizes:["XS","M","L"],colorsNames:["Negro"],colors:["#1a1a1a"],desc:'Bermuda baggy · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:41,cat:'pantalones',name:"CHIN OVER #1",price:'$99.000',emoji:'👖',tag:null,sizes:["XXL","XXXL"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Over leg · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:42,cat:'pantalones',name:"MOM RECTO NEGRO",price:'$125.400',emoji:'👖',tag:null,sizes:["S","M","L"],colorsNames:["Negro"],colors:["#1a1a1a"],desc:'Mom recto · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:43,cat:'pantalones',name:"CHIN WIDE #1",price:'$99.000',emoji:'👖',tag:null,sizes:["S","M","XL","XXL","XXXL"],colorsNames:["Negro"],colors:["#1a1a1a"],desc:'Wide leg · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:44,cat:'pantalones',name:"CHIN CAMPO #1",price:'$104.500',emoji:'👖',tag:null,sizes:["M","XL"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Jean campo · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:45,cat:'pantalones',name:"CHIN MOM RECTO CRUDO",price:'$93.500',emoji:'👖',tag:null,sizes:["XL","XXL"],colorsNames:["Crudo"],colors:["#d4c9a8"],desc:'Mom recto crudo · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:46,cat:'pantalones',name:"BERMUDA CHIN AZUL",price:'$93.500',emoji:'👖',tag:null,sizes:["S","L"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Bermuda · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:47,cat:'pantalones',name:"CHIN OVER OXIDO",price:'$115.500',emoji:'👖',tag:null,sizes:["S","L","XL","XXL","XXXL"],colorsNames:["Oxido"],colors:["#b85a2a"],desc:'Over oxido · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:48,cat:'pantalones',name:"CHIN WIDE RECORTES",price:'$115.500',emoji:'👖',tag:null,sizes:["S","XL","XXL","XXXL"],colorsNames:["Negro"],colors:["#1a1a1a"],desc:'Wide con recortes · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:49,cat:'pantalones',name:"CHIN WIDE ELLA #1",price:'$121.000',emoji:'👖',tag:null,sizes:["S","M","XL"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Wide ella · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:50,cat:'pantalones',name:"CHIN RECTO ELLA #2",price:'$93.500',emoji:'👖',tag:null,sizes:["XS","XL"],colorsNames:["Celeste"],colors:["#a8c8e8"],desc:'Recto ella · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:51,cat:'pantalones',name:"CHIN RECTO ELLA #3",price:'$104.500',emoji:'👖',tag:null,sizes:["S","M","XXL"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Recto ella · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:52,cat:'pantalones',name:"BERMU CHIN #1",price:'$82.500',emoji:'👖',tag:null,sizes:["S"],colorsNames:["Celeste"],colors:["#a8c8e8"],desc:'Bermuda · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:53,cat:'pantalones',name:"MINI CHIN #1",price:'$77.000',emoji:'👖',tag:null,sizes:["M"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Mini · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:54,cat:'pantalones',name:"SHORT #2",price:'$82.500',emoji:'👖',tag:null,sizes:["M"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Short · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:55,cat:'pantalones',name:"CHIN RECTO CARPINTERO",price:'Consultar',emoji:'👖',tag:null,sizes:["L","XXL","XXXL"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Recto carpintero · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:56,cat:'remeras',name:"REMERA OVER",price:'$61.600',emoji:'👕',tag:null,sizes:["M","L"],colorsNames:["Verde"],colors:["#4a6a3a"],desc:'Remera oversize · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:57,cat:'remeras',name:"REMERA SIN MANGAS",price:'$44.000',emoji:'👕',tag:null,sizes:["M"],colorsNames:["Negro"],colors:["#1a1a1a"],desc:'Remera sin mangas · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:58,cat:'remeras',name:"REMERA CLASICA #1",price:'$59.400',emoji:'👕',tag:null,sizes:["L","XL"],colorsNames:["Gris"],colors:["#888"],desc:'Remera clásica · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:59,cat:'remeras',name:"REMERA OVER #2",price:'$61.600',emoji:'👕',tag:null,sizes:["S","M","L"],colorsNames:["Bordeaux"],colors:["#7a1a2a"],desc:'Remera oversize · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:60,cat:'remeras',name:"REMERA TERMICA #1",price:'$71.500',emoji:'👕',tag:null,sizes:["M","L","XL"],colorsNames:["Negro"],colors:["#1a1a1a"],desc:'Remera térmica · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:61,cat:'remeras',name:"TOP MORLEY #1",price:'$55.000',emoji:'👕',tag:null,sizes:["S","M"],colorsNames:["Negro"],colors:["#1a1a1a"],desc:'Top morley · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:62,cat:'remeras',name:"REMERA MORLEY",price:'$61.600',emoji:'👕',tag:null,sizes:["S","L"],colorsNames:["Gris","Negro"],colors:["#888","#1a1a1a"],desc:'Remera morley · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:63,cat:'remeras',name:"REMERA BOXY CHIN ERA",price:'$59.400',emoji:'👕',tag:null,sizes:["S"],colorsNames:["Negro"],colors:["#1a1a1a"],desc:'Remera boxy · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:64,cat:'remeras',name:"REMERA BOXY CHIN ERA #2",price:'$59.400',emoji:'👕',tag:null,sizes:["S","M"],colorsNames:["Crudo"],colors:["#d4c9a8"],desc:'Remera boxy · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:65,cat:'remeras',name:"REMERA BOXY #1",price:'$55.000',emoji:'👕',tag:null,sizes:["S","M","L"],colorsNames:["Crudo","Negro"],colors:["#d4c9a8","#1a1a1a"],desc:'Remera boxy · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:66,cat:'remeras',name:"REMERA BOXY #2",price:'$59.400',emoji:'👕',tag:null,sizes:["L"],colorsNames:["Blanco","Negro"],colors:["#f5f0e8","#1a1a1a"],desc:'Remera boxy · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:67,cat:'remeras',name:"REMERA BOXY AZUL/CRUDO",price:'$55.000',emoji:'👕',tag:null,sizes:["S","M","L"],colorsNames:["Azul","Crudo"],colors:["#7d9bc4","#d4c9a8"],desc:'Remera boxy · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:68,cat:'remeras',name:"REMERA OVER #1",price:'$52.800',emoji:'👕',tag:null,sizes:["S","M"],colorsNames:["Crudo","Negro"],colors:["#d4c9a8","#1a1a1a"],desc:'Remera oversize · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:69,cat:'remeras',name:"REMERA ESTAMPA CHINERA",price:'Consultar',emoji:'👕',tag:null,sizes:["S"],colorsNames:["Blanco"],colors:["#f5f0e8"],desc:'Remera estampada · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:70,cat:'remeras',name:"REMERA DOBLE M/L",price:'Consultar',emoji:'👕',tag:null,sizes:["S","M","L","XL"],colorsNames:["Marron","Negro"],colors:["#7a4a30","#1a1a1a"],desc:'Remera doble manga larga · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:71,cat:'vestidos',name:"MONOPRENDA #2",price:'$159.500',emoji:'👗',tag:null,sizes:["S","M"],colorsNames:["Negro"],colors:["#1a1a1a"],desc:'Monoprenda · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:72,cat:'vestidos',name:"MONOPRENDA #1",price:'$137.500',emoji:'👗',tag:null,sizes:["M"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Monoprenda · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:73,cat:'vestidos',name:"JARDINERO #1",price:'$121.000',emoji:'👗',tag:null,sizes:["M"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Jardinero · Chinera · Industria Argentina · Unisex.',photos:[]},
+  {id:74,cat:'vestidos',name:"JARDINERO POLLERA ANNE",price:'$35.080',emoji:'👗',tag:null,sizes:["L","XL"],colorsNames:["Celeste","Negro"],colors:["#a8c8e8","#1a1a1a"],desc:'Jardinero pollera · Chinera · Industria Argentina · Unisex.',photos:[]}
+];
+
+// =============================================
+// LÓGICA — no necesitás tocar nada de acá
+// =============================================
+let cat='todos', currentProduct=null;
+const labels={todos:'Colección completa',pantalones:'Pantalones',remeras:'Remeras',buzos:'Buzos',camperas:'Camperas',camisas:'Camisas',vestidos:'Vestidos',accesorios:'Accesorios',calzado:'Calzado'};
+
+function filtered(){return cat==='todos'?productos:productos.filter(p=>p.cat===cat)}
+
+function renderGrid(){
+  const items=filtered();
+  document.getElementById('gridN').textContent=items.length+' prendas';
+  document.getElementById('gridEl').innerHTML=items.map(p=>`
+    <div class="card fade" onclick="openDetail(${p.id})">
+      <div class="card-img">
+        ${p.photos&&p.photos[0]?`<img class="card-photo" src="${p.photos[0]}" alt="${p.name}" loading="lazy">`:`<span class="card-emoji">${p.emoji}</span>`}
+        ${p.tag==='nuevo'?'<span class="tag tag-new">Nuevo</span>':''}
+        ${p.tag==='últimos'?'<span class="tag tag-last">Últimos</span>':''}
+      </div>
+      <div class="card-info">
+        <div class="card-name">${p.name}</div>
+        <div class="card-price">${p.price}</div>
+        <div class="card-sizes">${p.sizes.join(' · ')}</div>
+        <div class="card-colors">${p.colors.map(c=>`<div class="card-cdot" style="background:${c}"></div>`).join('')}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+document.getElementById('navEl').addEventListener('click',e=>{
+  const btn=e.target.closest('.nbtn');if(!btn)return;
+  document.querySelectorAll('.nbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');cat=btn.dataset.cat;
+  document.getElementById('gridTitle').textContent=labels[cat]||cat;
+  renderGrid();
+});
+
+function openDetail(id){
+  const p=productos.find(x=>x.id===id);
+  currentProduct=p;
+  document.getElementById('dCat').textContent=p.cat.toUpperCase();
+  document.getElementById('dName').textContent=p.name;
+  document.getElementById('dPrice').textContent=p.price;
+  document.getElementById('dDesc').textContent=p.desc;
+  document.getElementById('videoName').textContent=p.name;
+
+  // Imagen principal
+  const mainImg=document.getElementById('mainImg');
+  if(p.photos&&p.photos[0]){
+    mainImg.innerHTML=`<img src="${p.photos[0]}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover">`;
+  } else {
+    mainImg.innerHTML=`<span style="font-size:72px;opacity:0.2">${p.emoji}</span>`;
+  }
+
+  // Miniaturas
+  if(p.photos&&p.photos.length>1){
+    document.getElementById('thumbsEl').innerHTML=p.photos.map((ph,i)=>
+      `<div class="thumb ${i===0?'on':''}" onclick="setMainImg('${ph}',this)"><img src="${ph}" alt=""></div>`
+    ).join('');
+  } else {
+    document.getElementById('thumbsEl').innerHTML='';
+  }
+
+  // Talles
+  document.getElementById('sizesEl').innerHTML=p.sizes.map(s=>
+    `<button class="sz" onclick="this.closest('.sizes').querySelectorAll('.sz').forEach(x=>x.classList.remove('on'));this.classList.add('on')">${s}</button>`
+  ).join('');
+
+  // Colores
+  let ch=p.colors.map((c,i)=>
+    `<div class="cdot-detail ${i===0?'on':''}" style="background:${c}" onclick="this.parentElement.querySelectorAll('.cdot-detail').forEach(x=>x.classList.remove('on'));this.classList.add('on');document.getElementById('colorName').textContent='${p.colorsNames[i]}'"></div>`
+  ).join('');
+  ch+=`<span class="color-name" id="colorName">${p.colorsNames[0]||''}</span>`;
+  document.getElementById('colorsEl').innerHTML=ch;
+
+  // WhatsApp con mensaje pre-armado
+  const msg=encodeURIComponent(`Hola! Te consulto por la *${p.name}* (${p.price}) — disponible en Posta @posta.bb`);
+  document.getElementById('btnWa').href=`https://wa.me/${WHATSAPP}?text=${msg}`;
+  document.getElementById('btnConsultar').onclick=()=>window.open(`https://wa.me/${WHATSAPP}?text=${msg}`,'_blank');
+
+  document.getElementById('gridView').classList.remove('on');
+  document.getElementById('detailView').classList.add('on');
+  document.getElementById('backBtn').classList.add('on');
+  window.scrollTo(0,0);
+}
+
+function setMainImg(src,el){
+  document.getElementById('mainImg').innerHTML=`<img src="${src}" alt="" style="width:100%;height:100%;object-fit:cover">`;
+  document.querySelectorAll('.thumb').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+}
+
+function goGrid(){
+  document.getElementById('detailView').classList.remove('on');
+  document.getElementById('gridView').classList.add('on');
+  document.getElementById('backBtn').classList.remove('on');
+}
+
+renderGrid();
+</script>
+</body>
+</html>
