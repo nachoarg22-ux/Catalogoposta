@@ -51,11 +51,6 @@ body{background:var(--blanco);color:var(--texto);font-family:'DM Sans',sans-seri
 .thumb{width:48px;height:60px;background:var(--azul-bg);border:2px solid transparent;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;opacity:0.5;transition:all 0.2s;overflow:hidden}
 .thumb img{width:100%;height:100%;object-fit:cover}
 .thumb:hover{opacity:0.75}.thumb.on{opacity:1;border-color:var(--azul-dark)}
-.video-block{margin-top:8px;background:var(--azul-bg);border-left:3px solid var(--azul);padding:10px 12px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background 0.2s}
-.video-block:hover{background:var(--azul-pale)}
-.play-btn{width:26px;height:26px;border-radius:50%;background:var(--azul);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;font-size:9px}
-.video-txt-name{font-size:10px;color:var(--marron);margin-bottom:1px}
-.video-txt-sub{font-size:8px;letter-spacing:1px;color:var(--gris);text-transform:uppercase}
 .d-cat{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--azul-dark);margin-bottom:5px}
 .d-name{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;line-height:1.1;color:var(--marron);margin-bottom:4px}
 .d-price{font-size:20px;font-weight:300;color:var(--texto);margin-bottom:14px}
@@ -75,6 +70,28 @@ body{background:var(--blanco);color:var(--texto);font-family:'DM Sans',sans-seri
 .btn-wa{width:100%;background:transparent;color:var(--azul-dark);border:1px solid var(--azul-pale);padding:11px;font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:all 0.2s;text-decoration:none}
 .btn-wa:hover{border-color:var(--azul-dark);color:var(--marron)}
 @media(max-width:600px){.detail-grid{grid-template-columns:1fr}.d-name{font-size:22px}}
+
+/* FILTROS */
+.filters{padding:12px 20px;background:var(--blanco);border-bottom:1px solid var(--azul-pale);display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.filter-group{display:flex;flex-direction:column;gap:4px}
+.filter-label{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gris)}
+.filter-select{border:1px solid var(--azul-pale);background:var(--blanco);color:var(--texto);font-family:'DM Sans',sans-serif;font-size:11px;padding:6px 24px 6px 10px;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23a09880'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center}
+.filter-select:focus{border-color:var(--azul-dark)}
+.filter-clear{background:none;border:1px solid var(--azul-pale);color:var(--gris);font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:6px 12px;cursor:pointer;transition:all 0.2s;align-self:flex-end}
+.filter-clear:hover{border-color:var(--marron);color:var(--marron)}
+/* GUIA TALLES */
+.size-guide-link{font-size:9px;letter-spacing:1px;color:var(--azul-dark);text-decoration:underline;cursor:pointer;margin-bottom:14px;display:inline-block}
+.size-guide-link:hover{color:var(--marron)}
+/* BTN IG */
+.btn-primary{width:100%;background:var(--azul);color:var(--blanco);border:none;padding:13px;font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;margin-bottom:7px;transition:background 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
+.btn-primary:hover{background:var(--azul-dark)}
+/* NO RESULTS */
+.no-results{padding:40px 20px;text-align:center;color:var(--gris);font-size:13px;font-style:italic;grid-column:1/-1}
+/* SWIPE GALLERY */
+.gallery-swipe{position:relative;overflow:hidden;touch-action:pan-y}
+.swipe-dots{display:flex;justify-content:center;gap:5px;margin-top:6px}
+.swipe-dot{width:5px;height:5px;border-radius:50%;background:var(--azul-pale);cursor:pointer;transition:background 0.2s}
+.swipe-dot.on{background:var(--azul-dark)}
 </style>
 </head>
 <body>
@@ -96,10 +113,46 @@ body{background:var(--blanco);color:var(--texto);font-family:'DM Sans',sans-seri
   <button class="nbtn" data-cat="buzos">Buzos</button>
   <button class="nbtn" data-cat="camperas">Camperas</button>
   <button class="nbtn" data-cat="camisas">Camisas</button>
-  <button class="nbtn" data-cat="vestidos">Vestidos</button>
+  <button class="nbtn" data-cat="monoprendas">Monoprendas</button>
   <button class="nbtn" data-cat="accesorios">Accesorios</button>
   <button class="nbtn" data-cat="calzado">Calzado</button>
 </nav>
+
+
+<!-- FILTROS -->
+<div class="filters" id="filtersEl">
+  <div class="filter-group">
+    <span class="filter-label">Talle</span>
+    <select class="filter-select" id="filterSize" onchange="applyFilters()">
+      <option value="">Todos</option>
+      <option>0</option><option>1</option><option>2</option><option>3</option>
+      <option>4</option><option>5</option><option>6</option>
+      <option>37</option><option>38</option><option>39</option><option>40</option>
+      <option>U</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <span class="filter-label">Color</span>
+    <select class="filter-select" id="filterColor" onchange="applyFilters()">
+      <option value="">Todos</option>
+      <option>Avellana</option><option>Azul</option><option>Batik</option>
+      <option>Blanco</option><option>Bordeaux</option><option>Celeste</option>
+      <option>Crudo</option><option>Gris</option><option>Marron</option>
+      <option>Negro</option><option>Oxido</option><option>Verde</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <span class="filter-label">Precio máximo</span>
+    <select class="filter-select" id="filterPrice" onchange="applyFilters()">
+      <option value="">Sin límite</option>
+      <option value="60000">Hasta $60.000</option>
+      <option value="100000">Hasta $100.000</option>
+      <option value="130000">Hasta $130.000</option>
+      <option value="160000">Hasta $160.000</option>
+    </select>
+  </div>
+  <button class="filter-clear" onclick="clearFilters()">Limpiar filtros</button>
+</div>
 
 <div class="view on" id="gridView">
   <div class="grid-wrap">
@@ -117,9 +170,7 @@ body{background:var(--blanco);color:var(--texto);font-family:'DM Sans',sans-seri
       <div>
         <div class="main-img" id="mainImg"></div>
         <div class="thumbs" id="thumbsEl"></div>
-        <div class="video-block" id="videoBlock">
-          <div class="play-btn">▶</div>
-          <div>
+        <div>
             <div class="video-txt-name" id="videoName">Ver reel del producto</div>
             <div class="video-txt-sub">Instagram · @posta.bb</div>
           </div>
@@ -133,11 +184,15 @@ body{background:var(--blanco);color:var(--texto);font-family:'DM Sans',sans-seri
         <hr class="sep">
         <div class="lbl">Talles disponibles</div>
         <div class="sizes" id="sizesEl"></div>
+        <a class="size-guide-link" id="sizeGuideLink" href="#" target="_blank">Ver guía de talles →</a>
         <div class="lbl">Color</div>
         <div class="colors-detail" id="colorsEl"></div>
         <hr class="sep">
         <p class="d-desc" id="dDesc"></p>
-        <button class="btn-primary" id="btnConsultar">Consultar disponibilidad</button>
+        <a class="btn-primary" id="btnIg" href="https://ig.me/m/posta.bb" target="_blank">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          Consultar por Instagram
+        </a>
         <!-- Reemplazá TUNUMERO con tu número de WhatsApp -->
         <a class="btn-wa" id="btnWa" href="https://wa.me/5492984284323" target="_blank">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
@@ -231,18 +286,24 @@ const productos = [
   {id:73,cat:'remeras',name:"REMERA BOXY S/M",price:'$55.000',emoji:'👕',tag:null,sizes:["1"],colorsNames:["Crudo"],colors:["#d4c9a8"],desc:'Chinera · Industria Argentina · Unisex.',photos:["Remeras/Remera_boxy_sm/remera_boxy_sm_1.png","Remeras/Remera_boxy_sm/remera_boxy_sm_2.png"]},
   {id:74,cat:'remeras',name:"REMERA ESTAMPA CHINERA",price:'$44.000',emoji:'👕',tag:null,sizes:["1"],colorsNames:["Blanco"],colors:["#f5f0e8"],desc:'Chinera · Industria Argentina · Unisex.',photos:["Remeras/Remera_estampa_chinera/CHIN236_43629.jpg","Remeras/Remera_estampa_chinera/CHIN236_43632.jpg"]},
   {id:75,cat:'remeras',name:"REMERA DOBLE M/L",price:'$72.600',emoji:'👕',tag:null,sizes:["1", "2", "3", "4"],colorsNames:["Negro", "Marron"],colors:["#1a1a1a", "#7a4a30"],desc:'Chinera · Industria Argentina · Unisex.',photos:["Remeras/Remera_doble_ml/remera_doble_ml_1.jpg","Remeras/Remera_doble_ml/remera_doble_ml_2.jpg","Remeras/Remera_doble_ml/remera_doble_ml_3.jpg"]},
-  {id:76,cat:'vestidos',name:"MONOPRENDA #2",price:'$159.500',emoji:'👗',tag:null,sizes:["1", "2"],colorsNames:["Negro"],colors:["#1a1a1a"],desc:'Chinera · Industria Argentina · Unisex.',photos:["Vestidos/Monoprenda_h2/Monoprenda_h2_1.jpg","Vestidos/Monoprenda_h2/Monoprenda_h2_2.jpg","Vestidos/Monoprenda_h2/Monoprenda_h2_3.jpg","Vestidos/Monoprenda_h2/Monoprenda_h2_4.jpg"]},
-  {id:77,cat:'vestidos',name:"MONOPRENDA #1",price:'$137.500',emoji:'👗',tag:null,sizes:["2"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Chinera · Industria Argentina · Unisex.',photos:["Vestidos/Monoprenda_h1/Monoprenda_h1_1.jpg","Vestidos/Monoprenda_h1/Monoprenda_h1_2.jpg","Vestidos/Monoprenda_h1/Monoprenda_h1_3.jpg"]},
-  {id:78,cat:'vestidos',name:"JARDINERO #1",price:'$121.000',emoji:'👗',tag:null,sizes:["2"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Chinera · Industria Argentina · Unisex.',photos:["Vestidos/Jardinero_h1/Jardinero_h1_1.jpg","Vestidos/Jardinero_h1/Jardinero_h1_2.jpg","Vestidos/Jardinero_h1/Jardinero_h1_3.jpg"]},
+  {id:76,cat:'monoprendas',name:"MONOPRENDA #2",price:'$159.500',emoji:'👗',tag:null,sizes:["1", "2"],colorsNames:["Negro"],colors:["#1a1a1a"],desc:'Chinera · Industria Argentina · Unisex.',photos:["Vestidos/Monoprenda_h2/Monoprenda_h2_1.jpg","Vestidos/Monoprenda_h2/Monoprenda_h2_2.jpg","Vestidos/Monoprenda_h2/Monoprenda_h2_3.jpg","Vestidos/Monoprenda_h2/Monoprenda_h2_4.jpg"]},
+  {id:77,cat:'monoprendas',name:"MONOPRENDA #1",price:'$137.500',emoji:'👗',tag:null,sizes:["2"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Chinera · Industria Argentina · Unisex.',photos:["Vestidos/Monoprenda_h1/Monoprenda_h1_1.jpg","Vestidos/Monoprenda_h1/Monoprenda_h1_2.jpg","Vestidos/Monoprenda_h1/Monoprenda_h1_3.jpg"]},
+  {id:78,cat:'monoprendas',name:"JARDINERO #1",price:'$121.000',emoji:'👗',tag:null,sizes:["2"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Chinera · Industria Argentina · Unisex.',photos:["Vestidos/Jardinero_h1/Jardinero_h1_1.jpg","Vestidos/Jardinero_h1/Jardinero_h1_2.jpg","Vestidos/Jardinero_h1/Jardinero_h1_3.jpg"]},
 ];
 
 // =============================================
 // LÓGICA — no necesitás tocar nada de acá
 // =============================================
-let cat='todos', currentProduct=null;
-const labels={todos:'Colección completa',pantalones:'Pantalones',remeras:'Remeras',buzos:'Buzos',camperas:'Camperas',camisas:'Camisas',vestidos:'Vestidos',accesorios:'Accesorios',calzado:'Calzado'};
+let cat='todos', activeFilters={size:'',color:''  ,price:''};, currentProduct=null;
+const labels={todos:'Colección completa',pantalones:'Pantalones',remeras:'Remeras',buzos:'Buzos',camperas:'Camperas',camisas:'Camisas',monoprendas:'Monoprendas',accesorios:'Accesorios',calzado:'Calzado'};
 
-function filtered(){return cat==='todos'?productos:productos.filter(p=>p.cat===cat)}
+function filtered(){
+  let items=cat==='todos'?productos:productos.filter(p=>p.cat===cat);
+  if(activeFilters.size) items=items.filter(p=>p.sizes.map(String).includes(activeFilters.size));
+  if(activeFilters.color) items=items.filter(p=>p.colorsNames.some(c=>c.toLowerCase()===activeFilters.color.toLowerCase()));
+  if(activeFilters.price){const mx=parseInt(activeFilters.price);items=items.filter(p=>{try{return parseInt(p.price.replace(/[$\.]/g,''))<=mx;}catch{return true;}});}
+  return items;
+}
 
 function renderGrid(){
   const items=filtered();
@@ -315,6 +376,8 @@ function openDetail(id){
   document.getElementById('btnWa').href=`https://wa.me/${WHATSAPP}?text=${msg}`;
   document.getElementById('btnConsultar').onclick=()=>window.open(`https://wa.me/${WHATSAPP}?text=${msg}`,'_blank');
 
+  if(p.photos&&p.photos.length>0){ initSwipe(p.photos); } 
+  document.getElementById('filtersEl').style.display='none';
   document.getElementById('gridView').classList.remove('on');
   document.getElementById('detailView').classList.add('on');
   document.getElementById('backBtn').classList.add('on');
@@ -328,12 +391,59 @@ function setMainImg(src,el){
 }
 
 function goGrid(){
+  document.getElementById('filtersEl').style.display='flex';
   document.getElementById('detailView').classList.remove('on');
   document.getElementById('gridView').classList.add('on');
   document.getElementById('backBtn').classList.remove('on');
 }
 
 renderGrid();
+
+// ── FILTROS ──
+function applyFilters(){
+  activeFilters.size = document.getElementById('filterSize').value;
+  activeFilters.color = document.getElementById('filterColor').value;
+  activeFilters.price = document.getElementById('filterPrice').value;
+  renderGrid();
+}
+function clearFilters(){
+  document.getElementById('filterSize').value='';
+  document.getElementById('filterColor').value='';
+  document.getElementById('filterPrice').value='';
+  activeFilters={size:'',color:'',price:''};
+  renderGrid();
+}
+
+// ── SWIPE ──
+let swipePhotos=[], swipeIdx=0, touchStartX=0;
+function initSwipe(photos){
+  swipePhotos=photos; swipeIdx=0;
+  const wrap=document.getElementById('mainImg');
+  wrap.classList.add('gallery-swipe');
+  wrap.ontouchstart=e=>{ touchStartX=e.touches[0].clientX; };
+  wrap.ontouchend=e=>{
+    const dx=e.changedTouches[0].clientX - touchStartX;
+    if(Math.abs(dx)>40){ dx<0 ? nextPhoto() : prevPhoto(); }
+  };
+  renderSwipe();
+}
+function renderSwipe(){
+  const p=swipePhotos[swipeIdx];
+  document.getElementById('mainImg').innerHTML=`<img src="${p}" alt="" style="width:100%;height:100%;object-fit:cover">`;
+  // dots
+  let dots=document.getElementById('swipeDots');
+  if(!dots){ dots=document.createElement('div'); dots.id='swipeDots'; dots.className='swipe-dots'; document.getElementById('mainImg').after(dots); }
+  if(swipePhotos.length>1){
+    dots.innerHTML=swipePhotos.map((_,i)=>`<div class="swipe-dot ${i===swipeIdx?'on':''}" onclick="goPhoto(${i})"></div>`).join('');
+    dots.style.display='flex';
+  } else { dots.style.display='none'; }
+  // thumbs sync
+  document.querySelectorAll('.thumb').forEach((t,i)=>{ t.classList.toggle('on',i===swipeIdx); });
+}
+function nextPhoto(){ if(swipeIdx<swipePhotos.length-1){swipeIdx++;renderSwipe();} }
+function prevPhoto(){ if(swipeIdx>0){swipeIdx--;renderSwipe();} }
+function goPhoto(i){ swipeIdx=i; renderSwipe(); }
+
 </script>
 </body>
 </html>
