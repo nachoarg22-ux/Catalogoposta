@@ -72,12 +72,19 @@ body{background:var(--blanco);color:var(--texto);font-family:'DM Sans',sans-seri
 @media(max-width:600px){.detail-grid{grid-template-columns:1fr}.d-name{font-size:22px}}
 
 /* FILTROS */
-.filters{padding:12px 20px;background:var(--blanco);border-bottom:1px solid var(--azul-pale);display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.filter-bar{display:flex;align-items:center;gap:12px;padding:10px 20px;border-bottom:1px solid var(--azul-pale);background:var(--blanco)}
+.filter-toggle{display:flex;align-items:center;gap:6px;background:none;border:1px solid var(--azul-pale);color:var(--texto);font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:7px 14px;cursor:pointer;transition:all 0.2s}
+.filter-toggle:hover{border-color:var(--azul-dark);color:var(--azul-dark)}
+.filter-toggle.active{border-color:var(--marron);color:var(--marron)}
+.filter-active-dot{color:var(--marron);font-size:8px;margin-left:2px}
+.filter-results{font-size:10px;color:var(--gris);letter-spacing:1px}
+.filter-panel{background:var(--azul-bg);border-bottom:1px solid var(--azul-pale);overflow:hidden}
+.filter-panel-inner{display:flex;flex-wrap:wrap;gap:12px;padding:14px 20px;align-items:flex-end}
 .filter-group{display:flex;flex-direction:column;gap:4px}
 .filter-label{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gris)}
 .filter-select{border:1px solid var(--azul-pale);background:var(--blanco);color:var(--texto);font-family:'DM Sans',sans-serif;font-size:11px;padding:6px 24px 6px 10px;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23a09880'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center}
 .filter-select:focus{border-color:var(--azul-dark)}
-.filter-clear{background:none;border:1px solid var(--azul-pale);color:var(--gris);font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:6px 12px;cursor:pointer;transition:all 0.2s;align-self:flex-end}
+.filter-clear{background:none;border:1px solid var(--azul-pale);color:var(--gris);font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:7px 14px;cursor:pointer;transition:all 0.2s;align-self:flex-end}
 .filter-clear:hover{border-color:var(--marron);color:var(--marron)}
 /* GUIA TALLES */
 .size-guide-link{font-size:9px;letter-spacing:1px;color:var(--azul-dark);text-decoration:underline;cursor:pointer;margin-bottom:14px;display:inline-block}
@@ -120,17 +127,50 @@ body{background:var(--blanco);color:var(--texto);font-family:'DM Sans',sans-seri
 
 
 <!-- FILTROS -->
-<div class="filters" id="filtersEl">
-  <div class="filter-group">
-    <span class="filter-label">Talle</span>
-    <select class="filter-select" id="filterSize" onchange="applyFilters()">
-      <option value="">Todos</option>
-      <option>0</option><option>1</option><option>2</option><option>3</option>
-      <option>4</option><option>5</option><option>6</option>
-      <option>37</option><option>38</option><option>39</option><option>40</option>
-      <option>U</option>
-    </select>
+<div class="filter-bar">
+  <button class="filter-toggle" onclick="toggleFilters()">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+    Filtros
+    <span class="filter-active-dot" id="filterDot" style="display:none">●</span>
+  </button>
+  <span class="filter-results" id="filterResults"></span>
+</div>
+<div class="filter-panel" id="filterPanel" style="display:none">
+  <div class="filter-panel-inner">
+    <div class="filter-group">
+      <span class="filter-label">Talle</span>
+      <select class="filter-select" id="filterSize" onchange="applyFilters()">
+        <option value="">Todos</option>
+        <option>0</option><option>1</option><option>2</option><option>3</option>
+        <option>4</option><option>5</option><option>6</option>
+        <option>37</option><option>38</option><option>39</option><option>40</option>
+        <option>U</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Color</span>
+      <select class="filter-select" id="filterColor" onchange="applyFilters()">
+        <option value="">Todos</option>
+        <option>Avellana</option><option>Azul</option><option>Batik</option>
+        <option>Blanco</option><option>Bordeaux</option><option>Celeste</option>
+        <option>Crudo</option><option>Gris</option><option>Marron</option>
+        <option>Negro</option><option>Oxido</option><option>Verde</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Precio máximo</span>
+      <select class="filter-select" id="filterPrice" onchange="applyFilters()">
+        <option value="">Sin límite</option>
+        <option value="60000">Hasta $60.000</option>
+        <option value="100000">Hasta $100.000</option>
+        <option value="130000">Hasta $130.000</option>
+        <option value="160000">Hasta $160.000</option>
+      </select>
+    </div>
+    <button class="filter-clear" onclick="clearFilters()">Limpiar filtros</button>
   </div>
+</div>
+
   <div class="filter-group">
     <span class="filter-label">Color</span>
     <select class="filter-select" id="filterColor" onchange="applyFilters()">
@@ -308,6 +348,8 @@ function filtered(){
 function renderGrid(){
   const items=filtered();
   document.getElementById('gridN').textContent=items.length+' prendas';
+  const res=document.getElementById('filterResults');
+  if(res) res.textContent=items.length+' prendas';
   document.getElementById('gridEl').innerHTML=items.map(p=>`
     <div class="card fade" onclick="openDetail(${p.id})">
       <div class="card-img">
@@ -377,7 +419,7 @@ function openDetail(id){
   document.getElementById('btnConsultar').onclick=()=>window.open(`https://wa.me/${WHATSAPP}?text=${msg}`,'_blank');
 
   if(p.photos&&p.photos.length>0){ initSwipe(p.photos); } 
-  document.getElementById('filtersEl').style.display='none';
+  document.getElementById('filterPanel').style.display='none';document.querySelector('.filter-bar').style.display='none';
   document.getElementById('gridView').classList.remove('on');
   document.getElementById('detailView').classList.add('on');
   document.getElementById('backBtn').classList.add('on');
@@ -391,7 +433,7 @@ function setMainImg(src,el){
 }
 
 function goGrid(){
-  document.getElementById('filtersEl').style.display='flex';
+  document.querySelector('.filter-bar').style.display='flex';
   document.getElementById('detailView').classList.remove('on');
   document.getElementById('gridView').classList.add('on');
   document.getElementById('backBtn').classList.remove('on');
@@ -401,9 +443,11 @@ renderGrid();
 
 // ── FILTROS ──
 function applyFilters(){
-  activeFilters.size = document.getElementById('filterSize').value;
-  activeFilters.color = document.getElementById('filterColor').value;
-  activeFilters.price = document.getElementById('filterPrice').value;
+  activeFilters.size=document.getElementById('filterSize').value;
+  activeFilters.color=document.getElementById('filterColor').value;
+  activeFilters.price=document.getElementById('filterPrice').value;
+  const active=activeFilters.size||activeFilters.color||activeFilters.price;
+  document.getElementById('filterDot').style.display=active?'inline':'none';
   renderGrid();
 }
 function clearFilters(){
@@ -411,9 +455,19 @@ function clearFilters(){
   document.getElementById('filterColor').value='';
   document.getElementById('filterPrice').value='';
   activeFilters={size:'',color:'',price:''};
+  document.getElementById('filterDot').style.display='none';
   renderGrid();
 }
 
+
+// ── TOGGLE FILTROS ──
+function toggleFilters(){
+  const panel=document.getElementById('filterPanel');
+  const btn=document.querySelector('.filter-toggle');
+  const open=panel.style.display==='none';
+  panel.style.display=open?'block':'none';
+  btn.classList.toggle('active',open);
+}
 // ── SWIPE ──
 let swipePhotos=[], swipeIdx=0, touchStartX=0;
 function initSwipe(photos){
