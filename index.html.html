@@ -334,7 +334,7 @@ const productos = [
 // =============================================
 // LÓGICA — no necesitás tocar nada de acá
 // =============================================
-let cat='todos', activeFilters={size:'',color:''  ,price:''};, currentProduct=null;
+let cat='todos', activeFilters={size:'',color:''  ,price:''};;
 const labels={todos:'Colección completa',pantalones:'Pantalones',remeras:'Remeras',buzos:'Buzos',camperas:'Camperas',camisas:'Camisas',monoprendas:'Monoprendas',accesorios:'Accesorios',calzado:'Calzado'};
 
 function filtered(){
@@ -377,7 +377,6 @@ document.getElementById('navEl').addEventListener('click',e=>{
 
 function openDetail(id){
   const p=productos.find(x=>x.id===id);
-  currentProduct=p;
   document.getElementById('dCat').textContent=p.cat.toUpperCase();
   document.getElementById('dName').textContent=p.name;
   document.getElementById('dPrice').textContent=p.price;
@@ -463,10 +462,10 @@ function clearFilters(){
 // ── TOGGLE FILTROS ──
 function toggleFilters(){
   const panel=document.getElementById('filterPanel');
-  const btn=document.querySelector('.filter-toggle');
+  const toggleBtn=document.querySelector('.filter-toggle');
   const open=panel.style.display==='none';
   panel.style.display=open?'block':'none';
-  btn.classList.toggle('active',open);
+  toggleBtn.classList.toggle('active',open);
 }
 // ── SWIPE ──
 let swipePhotos=[], swipeIdx=0, touchStartX=0;
@@ -482,8 +481,8 @@ function initSwipe(photos){
   renderSwipe();
 }
 function renderSwipe(){
-  const p=swipePhotos[swipeIdx];
-  document.getElementById('mainImg').innerHTML=`<img src="${p}" alt="" style="width:100%;height:100%;object-fit:cover">`;
+  const swipeP=swipePhotos[swipeIdx];
+  document.getElementById('mainImg').innerHTML=`<img src="${swipeP}" alt="" style="width:100%;height:100%;object-fit:cover">`;
   // dots
   let dots=document.getElementById('swipeDots');
   if(!dots){ dots=document.createElement('div'); dots.id='swipeDots'; dots.className='swipe-dots'; document.getElementById('mainImg').after(dots); }
