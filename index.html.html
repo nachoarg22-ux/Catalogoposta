@@ -6,6 +6,7 @@
 <title>Posta — Catálogo Chinera</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--azul:#7d9bc4;--azul-dark:#5a7ba8;--azul-pale:#c8d8ec;--azul-bg:#e8eef6;--marron:#4a2210;--marron-light:#7a4a30;--blanco:#f8f6f2;--gris:#a09880;--texto:#2a1a0e}
 body{background:var(--blanco);color:var(--texto);font-family:'DM Sans',sans-serif;min-height:100vh}
@@ -99,13 +100,13 @@ body{background:var(--blanco);color:var(--texto);font-family:'DM Sans',sans-seri
 .swipe-dots{display:flex;justify-content:center;gap:5px;margin-top:6px}
 .swipe-dot{width:5px;height:5px;border-radius:50%;background:var(--azul-pale);cursor:pointer;transition:background 0.2s}
 .swipe-dot.on{background:var(--azul-dark)}
+
 </style>
 </head>
 <body>
 
 <header class="header">
   <div class="logo-area">
-    <!-- Reemplazá "logo.png" con el nombre de tu archivo de logo -->
     <img class="logo-img" src="logo.png" alt="Posta" onerror="this.style.display='none'"/>
     <div class="logo-sep"></div>
     <div class="logo-sub">Showroom · Bahía Blanca<br>Chinera exclusivo</div>
@@ -125,16 +126,14 @@ body{background:var(--blanco);color:var(--texto);font-family:'DM Sans',sans-seri
   <button class="nbtn" data-cat="calzado">Calzado</button>
 </nav>
 
-
-<!-- FILTROS -->
-<div class="filter-bar">
-  <button class="filter-toggle" onclick="toggleFilters()">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
-    Filtros
-    <span class="filter-active-dot" id="filterDot" style="display:none">●</span>
+<div class="filter-bar" id="filterBar">
+  <button class="filter-toggle" id="filterToggleBtn" onclick="toggleFilters()">
+    &#9776; Filtros
+    <span class="filter-active-dot" id="filterDot" style="display:none">&#9679;</span>
   </button>
   <span class="filter-results" id="filterResults"></span>
 </div>
+
 <div class="filter-panel" id="filterPanel" style="display:none">
   <div class="filter-panel-inner">
     <div class="filter-group">
@@ -158,9 +157,9 @@ body{background:var(--blanco);color:var(--texto);font-family:'DM Sans',sans-seri
       </select>
     </div>
     <div class="filter-group">
-      <span class="filter-label">Precio máximo</span>
+      <span class="filter-label">Precio m&#225;ximo</span>
       <select class="filter-select" id="filterPrice" onchange="applyFilters()">
-        <option value="">Sin límite</option>
+        <option value="">Sin l&#237;mite</option>
         <option value="60000">Hasta $60.000</option>
         <option value="100000">Hasta $100.000</option>
         <option value="130000">Hasta $130.000</option>
@@ -171,33 +170,10 @@ body{background:var(--blanco);color:var(--texto);font-family:'DM Sans',sans-seri
   </div>
 </div>
 
-  <div class="filter-group">
-    <span class="filter-label">Color</span>
-    <select class="filter-select" id="filterColor" onchange="applyFilters()">
-      <option value="">Todos</option>
-      <option>Avellana</option><option>Azul</option><option>Batik</option>
-      <option>Blanco</option><option>Bordeaux</option><option>Celeste</option>
-      <option>Crudo</option><option>Gris</option><option>Marron</option>
-      <option>Negro</option><option>Oxido</option><option>Verde</option>
-    </select>
-  </div>
-  <div class="filter-group">
-    <span class="filter-label">Precio máximo</span>
-    <select class="filter-select" id="filterPrice" onchange="applyFilters()">
-      <option value="">Sin límite</option>
-      <option value="60000">Hasta $60.000</option>
-      <option value="100000">Hasta $100.000</option>
-      <option value="130000">Hasta $130.000</option>
-      <option value="160000">Hasta $160.000</option>
-    </select>
-  </div>
-  <button class="filter-clear" onclick="clearFilters()">Limpiar filtros</button>
-</div>
-
 <div class="view on" id="gridView">
   <div class="grid-wrap">
     <div class="grid-head">
-      <span class="grid-title" id="gridTitle">Colección completa</span>
+      <span class="grid-title" id="gridTitle">Colecci&#243;n completa</span>
       <span class="grid-n" id="gridN"></span>
     </div>
     <div class="grid" id="gridEl"></div>
@@ -210,49 +186,38 @@ body{background:var(--blanco);color:var(--texto);font-family:'DM Sans',sans-seri
       <div>
         <div class="main-img" id="mainImg"></div>
         <div class="thumbs" id="thumbsEl"></div>
-        <div>
-            <div class="video-txt-name" id="videoName">Ver reel del producto</div>
-            <div class="video-txt-sub">Instagram · @posta.bb</div>
-          </div>
-        </div>
       </div>
       <div>
         <div class="d-cat" id="dCat"></div>
         <div class="d-name" id="dName"></div>
         <div class="d-price" id="dPrice"></div>
-        <div class="chinera-badge">✦ Chinera · Industria Argentina</div>
+        <div class="chinera-badge">&#10022; Chinera &middot; Industria Argentina</div>
         <hr class="sep">
         <div class="lbl">Talles disponibles</div>
         <div class="sizes" id="sizesEl"></div>
-        <a class="size-guide-link" id="sizeGuideLink" href="#" target="_blank">Ver guía de talles →</a>
+        <a class="size-guide-link" id="sizeGuideLink" href="#" target="_blank">Ver gu&#237;a de talles &#8594;</a>
+        <hr class="sep">
         <div class="lbl">Color</div>
         <div class="colors-detail" id="colorsEl"></div>
         <hr class="sep">
         <p class="d-desc" id="dDesc"></p>
-        <a class="btn-primary" id="btnIg" href="https://ig.me/m/posta.bb" target="_blank">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-          Consultar por Instagram
-        </a>
-        <!-- Reemplazá TUNUMERO con tu número de WhatsApp -->
-        <a class="btn-wa" id="btnWa" href="https://wa.me/5492984284323" target="_blank">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-          Escribir por WhatsApp
-        </a>
+        <div class="btns">
+          <a class="btn-ig" id="btnIg" href="https://ig.me/m/posta.bb" target="_blank">
+            Consultar por Instagram
+          </a>
+          <a class="btn-wa" id="btnWa" href="https://wa.me/5492984284323" target="_blank">
+            Escribir por WhatsApp
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-// =============================================
-// CONFIGURACIÓN — editá estos valoreshttps://zoom.us/
-// =============================================
-const WHATSAPP = "5492984284323"; // Tu número con código de país (54 = Argentina, 291 = Bahía Blanca)
-const INSTAGRAM_BASE = "https://www.instagram.com/posta.bb";
+const WHATSAPP = "5492984284323";
+const SIZE_GUIDE_URL = "#";
 
-// =============================================
-// PRODUCTOS — cargados desde tu Excel
-// =============================================
 const productos = [
   {id:1,cat:'accesorios',name:"Manta Chinera",price:'$55.000',emoji:'🎒',tag:null,sizes:["U"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Chinera · Industria Argentina · Unisex.',photos:["Accesorios/Manta Chinera/manta_chinera1.jpg","Accesorios/Manta Chinera/manta_chinera2.png"]},
   {id:2,cat:'accesorios',name:"GORRA CHIN #3",price:'$44.000',emoji:'🎒',tag:null,sizes:["U"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Chinera · Industria Argentina · Unisex.',photos:["Accesorios/Gorra%20Chin%20%233/gorra_chin_%233_1.jpg","Accesorios/Gorra%20Chin%20%233/gorra_chin_%233_2.jpg"]},
@@ -331,172 +296,243 @@ const productos = [
   {id:78,cat:'monoprendas',name:"JARDINERO #1",price:'$121.000',emoji:'👗',tag:null,sizes:["2"],colorsNames:["Azul"],colors:["#7d9bc4"],desc:'Chinera · Industria Argentina · Unisex.',photos:["Vestidos/Jardinero_h1/Jardinero_h1_1.jpg","Vestidos/Jardinero_h1/Jardinero_h1_2.jpg","Vestidos/Jardinero_h1/Jardinero_h1_3.jpg"]},
 ];
 
-// =============================================
-// LÓGICA — no necesitás tocar nada de acá
-// =============================================
-let cat='todos', activeFilters={size:'',color:''  ,price:''};;
-const labels={todos:'Colección completa',pantalones:'Pantalones',remeras:'Remeras',buzos:'Buzos',camperas:'Camperas',camisas:'Camisas',monoprendas:'Monoprendas',accesorios:'Accesorios',calzado:'Calzado'};
+var cat = 'todos';
+var activeFilters = {size:'', color:'', price:''};
+var swipePhotos = [];
+var swipeIdx = 0;
+var touchStartX = 0;
 
-function filtered(){
-  let items=cat==='todos'?productos:productos.filter(p=>p.cat===cat);
-  if(activeFilters.size) items=items.filter(p=>p.sizes.map(String).includes(activeFilters.size));
-  if(activeFilters.color) items=items.filter(p=>p.colorsNames.some(c=>c.toLowerCase()===activeFilters.color.toLowerCase()));
-  if(activeFilters.price){const mx=parseInt(activeFilters.price);items=items.filter(p=>{try{return parseInt(p.price.replace(/[$\.]/g,''))<=mx;}catch{return true;}});}
+var labels = {
+  todos:'Coleccion completa',
+  pantalones:'Pantalones',
+  remeras:'Remeras',
+  buzos:'Buzos',
+  camperas:'Camperas',
+  camisas:'Camisas',
+  monoprendas:'Monoprendas',
+  accesorios:'Accesorios',
+  calzado:'Calzado'
+};
+
+function filtered() {
+  var items = cat === 'todos' ? productos : productos.filter(function(p){ return p.cat === cat; });
+  if (activeFilters.size) {
+    items = items.filter(function(p){ return p.sizes.map(String).indexOf(activeFilters.size) !== -1; });
+  }
+  if (activeFilters.color) {
+    items = items.filter(function(p){
+      return p.colorsNames.some(function(c){ return c.toLowerCase() === activeFilters.color.toLowerCase(); });
+    });
+  }
+  if (activeFilters.price) {
+    var mx = parseInt(activeFilters.price);
+    items = items.filter(function(p){
+      try {
+        var num = parseInt(p.price.split('$').join('').split('.').join('').split(',').join(''));
+        return num <= mx;
+      } catch(e) { return true; }
+    });
+  }
   return items;
 }
 
-function renderGrid(){
-  const items=filtered();
-  document.getElementById('gridN').textContent=items.length+' prendas';
-  const res=document.getElementById('filterResults');
-  if(res) res.textContent=items.length+' prendas';
-  document.getElementById('gridEl').innerHTML=items.map(p=>`
-    <div class="card fade" onclick="openDetail(${p.id})">
-      <div class="card-img">
-        ${p.photos&&p.photos[0]?`<img class="card-photo" src="${p.photos[0]}" alt="${p.name}" loading="lazy">`:`<span class="card-emoji">${p.emoji}</span>`}
-        ${p.tag==='nuevo'?'<span class="tag tag-new">Nuevo</span>':''}
-        ${p.tag==='últimos'?'<span class="tag tag-last">Últimos</span>':''}
-      </div>
-      <div class="card-info">
-        <div class="card-name">${p.name}</div>
-        <div class="card-price">${p.price}</div>
-        <div class="card-sizes">${p.sizes.join(' · ')}</div>
-        <div class="card-colors">${p.colors.map(c=>`<div class="card-cdot" style="background:${c}"></div>`).join('')}</div>
-      </div>
-    </div>
-  `).join('');
+function renderGrid() {
+  var items = filtered();
+  document.getElementById('gridN').textContent = items.length + ' prendas';
+  var res = document.getElementById('filterResults');
+  if (res) res.textContent = items.length + ' prendas';
+  if (items.length === 0) {
+    document.getElementById('gridEl').innerHTML = '<div class="no-results">No hay prendas con esos filtros.</div>';
+    return;
+  }
+  var html = '';
+  for (var i = 0; i < items.length; i++) {
+    var p = items[i];
+    var imgHtml = p.photos && p.photos[0]
+      ? '<img class="card-photo" src="' + p.photos[0] + '" alt="' + p.name + '" loading="lazy">'
+      : '<span class="card-emoji">' + p.emoji + '</span>';
+    var tagHtml = p.tag === 'nuevo' ? '<span class="tag tag-new">Nuevo</span>' :
+                  p.tag === 'ultimos' ? '<span class="tag tag-last">Ultimos</span>' : '';
+    var sizesHtml = p.sizes.join(' &middot; ');
+    var colorsHtml = '';
+    for (var j = 0; j < p.colors.length; j++) {
+      colorsHtml += '<div class="card-cdot" style="background:' + p.colors[j] + '"></div>';
+    }
+    html += '<div class="card fade" onclick="openDetail(' + p.id + ')">';
+    html += '<div class="card-img">' + imgHtml + tagHtml + '</div>';
+    html += '<div class="card-info">';
+    html += '<div class="card-name">' + p.name + '</div>';
+    html += '<div class="card-price">' + p.price + '</div>';
+    html += '<div class="card-sizes">' + sizesHtml + '</div>';
+    html += '<div class="card-colors">' + colorsHtml + '</div>';
+    html += '</div></div>';
+  }
+  document.getElementById('gridEl').innerHTML = html;
 }
 
-document.getElementById('navEl').addEventListener('click',e=>{
-  const btn=e.target.closest('.nbtn');if(!btn)return;
-  document.querySelectorAll('.nbtn').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');cat=btn.dataset.cat;
-  document.getElementById('gridTitle').textContent=labels[cat]||cat;
+document.getElementById('navEl').addEventListener('click', function(e) {
+  var btn = e.target.closest ? e.target.closest('.nbtn') : null;
+  if (!btn) return;
+  var btns = document.querySelectorAll('.nbtn');
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('on');
+  btn.classList.add('on');
+  cat = btn.dataset.cat;
+  document.getElementById('gridTitle').textContent = labels[cat] || cat;
   renderGrid();
 });
 
-function openDetail(id){
-  const p=productos.find(x=>x.id===id);
-  document.getElementById('dCat').textContent=p.cat.toUpperCase();
-  document.getElementById('dName').textContent=p.name;
-  document.getElementById('dPrice').textContent=p.price;
-  document.getElementById('dDesc').textContent=p.desc;
-  document.getElementById('videoName').textContent=p.name;
+function openDetail(id) {
+  var p = null;
+  for (var i = 0; i < productos.length; i++) {
+    if (productos[i].id === id) { p = productos[i]; break; }
+  }
+  if (!p) return;
 
-  // Imagen principal
-  const mainImg=document.getElementById('mainImg');
-  if(p.photos&&p.photos[0]){
-    mainImg.innerHTML=`<img src="${p.photos[0]}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover">`;
+  document.getElementById('dCat').textContent = (labels[p.cat] || p.cat).toUpperCase();
+  document.getElementById('dName').textContent = p.name;
+  document.getElementById('dPrice').textContent = p.price;
+  document.getElementById('dDesc').textContent = p.desc;
+  document.getElementById('sizeGuideLink').href = SIZE_GUIDE_URL;
+
+  if (p.photos && p.photos.length > 0) {
+    initSwipe(p.photos);
   } else {
-    mainImg.innerHTML=`<span style="font-size:72px;opacity:0.2">${p.emoji}</span>`;
+    document.getElementById('mainImg').innerHTML = '<span style="font-size:72px;opacity:0.2">' + p.emoji + '</span>';
+    document.getElementById('thumbsEl').innerHTML = '';
+    var dots = document.getElementById('swipeDots');
+    if (dots) dots.style.display = 'none';
   }
 
-  // Miniaturas
-  if(p.photos&&p.photos.length>1){
-    document.getElementById('thumbsEl').innerHTML=p.photos.map((ph,i)=>
-      `<div class="thumb ${i===0?'on':''}" onclick="setMainImg('${ph}',this)"><img src="${ph}" alt=""></div>`
-    ).join('');
-  } else {
-    document.getElementById('thumbsEl').innerHTML='';
+  var sizesHtml = '';
+  for (var i = 0; i < p.sizes.length; i++) {
+    sizesHtml += '<button class="sz" onclick="selectSize(this)">' + p.sizes[i] + '</button>';
   }
+  document.getElementById('sizesEl').innerHTML = sizesHtml;
 
-  // Talles
-  document.getElementById('sizesEl').innerHTML=p.sizes.map(s=>
-    `<button class="sz" onclick="this.closest('.sizes').querySelectorAll('.sz').forEach(x=>x.classList.remove('on'));this.classList.add('on')">${s}</button>`
-  ).join('');
+  var colorsHtml = '';
+  for (var i = 0; i < p.colors.length; i++) {
+    colorsHtml += '<div class="cdot-detail' + (i === 0 ? ' on' : '') + '" style="background:' + p.colors[i] + '" data-name="' + (p.colorsNames[i] || '') + '" onclick="selectColor(this)"></div>';
+  }
+  colorsHtml += '<span class="color-name" id="colorName">' + (p.colorsNames[0] || '') + '</span>';
+  document.getElementById('colorsEl').innerHTML = colorsHtml;
 
-  // Colores
-  let ch=p.colors.map((c,i)=>
-    `<div class="cdot-detail ${i===0?'on':''}" style="background:${c}" onclick="this.parentElement.querySelectorAll('.cdot-detail').forEach(x=>x.classList.remove('on'));this.classList.add('on');document.getElementById('colorName').textContent='${p.colorsNames[i]}'"></div>`
-  ).join('');
-  ch+=`<span class="color-name" id="colorName">${p.colorsNames[0]||''}</span>`;
-  document.getElementById('colorsEl').innerHTML=ch;
+  var msg = encodeURIComponent('Hola! Te consulto por *' + p.name + '* (' + p.price + ') - disponible en Posta @posta.bb');
+  document.getElementById('btnWa').href = 'https://wa.me/' + WHATSAPP + '?text=' + msg;
+  document.getElementById('btnIg').href = 'https://ig.me/m/posta.bb';
 
-  // WhatsApp con mensaje pre-armado
-  const msg=encodeURIComponent(`Hola! Te consulto por la *${p.name}* (${p.price}) — disponible en Posta @posta.bb`);
-  document.getElementById('btnWa').href=`https://wa.me/${WHATSAPP}?text=${msg}`;
-  document.getElementById('btnConsultar').onclick=()=>window.open(`https://wa.me/${WHATSAPP}?text=${msg}`,'_blank');
-
-  if(p.photos&&p.photos.length>0){ initSwipe(p.photos); } 
-  document.getElementById('filterPanel').style.display='none';document.querySelector('.filter-bar').style.display='none';
+  document.getElementById('filterBar').style.display = 'none';
+  document.getElementById('filterPanel').style.display = 'none';
   document.getElementById('gridView').classList.remove('on');
   document.getElementById('detailView').classList.add('on');
   document.getElementById('backBtn').classList.add('on');
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
 }
 
-function setMainImg(src,el){
-  document.getElementById('mainImg').innerHTML=`<img src="${src}" alt="" style="width:100%;height:100%;object-fit:cover">`;
-  document.querySelectorAll('.thumb').forEach(t=>t.classList.remove('on'));
+function selectSize(el) {
+  var btns = el.closest('.sizes').querySelectorAll('.sz');
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('on');
   el.classList.add('on');
 }
 
-function goGrid(){
-  document.querySelector('.filter-bar').style.display='flex';
+function selectColor(el) {
+  var dots = el.parentElement.querySelectorAll('.cdot-detail');
+  for (var i = 0; i < dots.length; i++) dots[i].classList.remove('on');
+  el.classList.add('on');
+  var nameEl = document.getElementById('colorName');
+  if (nameEl) nameEl.textContent = el.dataset.name || '';
+}
+
+function goGrid() {
   document.getElementById('detailView').classList.remove('on');
   document.getElementById('gridView').classList.add('on');
   document.getElementById('backBtn').classList.remove('on');
+  document.getElementById('filterBar').style.display = 'flex';
 }
 
-renderGrid();
+function toggleFilters() {
+  var panel = document.getElementById('filterPanel');
+  var btn = document.getElementById('filterToggleBtn');
+  var open = panel.style.display === 'none';
+  panel.style.display = open ? 'block' : 'none';
+  btn.classList.toggle('active', open);
+}
 
-// ── FILTROS ──
-function applyFilters(){
-  activeFilters.size=document.getElementById('filterSize').value;
-  activeFilters.color=document.getElementById('filterColor').value;
-  activeFilters.price=document.getElementById('filterPrice').value;
-  const active=activeFilters.size||activeFilters.color||activeFilters.price;
-  document.getElementById('filterDot').style.display=active?'inline':'none';
+function applyFilters() {
+  activeFilters.size = document.getElementById('filterSize').value;
+  activeFilters.color = document.getElementById('filterColor').value;
+  activeFilters.price = document.getElementById('filterPrice').value;
+  var active = activeFilters.size || activeFilters.color || activeFilters.price;
+  document.getElementById('filterDot').style.display = active ? 'inline' : 'none';
   renderGrid();
 }
-function clearFilters(){
-  document.getElementById('filterSize').value='';
-  document.getElementById('filterColor').value='';
-  document.getElementById('filterPrice').value='';
-  activeFilters={size:'',color:'',price:''};
-  document.getElementById('filterDot').style.display='none';
+
+function clearFilters() {
+  document.getElementById('filterSize').value = '';
+  document.getElementById('filterColor').value = '';
+  document.getElementById('filterPrice').value = '';
+  activeFilters = {size:'', color:'', price:''};
+  document.getElementById('filterDot').style.display = 'none';
   renderGrid();
 }
 
-
-// ── TOGGLE FILTROS ──
-function toggleFilters(){
-  const panel=document.getElementById('filterPanel');
-  const toggleBtn=document.querySelector('.filter-toggle');
-  const open=panel.style.display==='none';
-  panel.style.display=open?'block':'none';
-  toggleBtn.classList.toggle('active',open);
-}
-// ── SWIPE ──
-let swipePhotos=[], swipeIdx=0, touchStartX=0;
-function initSwipe(photos){
-  swipePhotos=photos; swipeIdx=0;
-  const wrap=document.getElementById('mainImg');
-  wrap.classList.add('gallery-swipe');
-  wrap.ontouchstart=e=>{ touchStartX=e.touches[0].clientX; };
-  wrap.ontouchend=e=>{
-    const dx=e.changedTouches[0].clientX - touchStartX;
-    if(Math.abs(dx)>40){ dx<0 ? nextPhoto() : prevPhoto(); }
+function initSwipe(photos) {
+  swipePhotos = photos;
+  swipeIdx = 0;
+  var wrap = document.getElementById('mainImg');
+  wrap.ontouchstart = function(e) { touchStartX = e.touches[0].clientX; };
+  wrap.ontouchend = function(e) {
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40) { dx < 0 ? nextPhoto() : prevPhoto(); }
   };
   renderSwipe();
 }
-function renderSwipe(){
-  const swipeP=swipePhotos[swipeIdx];
-  document.getElementById('mainImg').innerHTML=`<img src="${swipeP}" alt="" style="width:100%;height:100%;object-fit:cover">`;
-  // dots
-  let dots=document.getElementById('swipeDots');
-  if(!dots){ dots=document.createElement('div'); dots.id='swipeDots'; dots.className='swipe-dots'; document.getElementById('mainImg').after(dots); }
-  if(swipePhotos.length>1){
-    dots.innerHTML=swipePhotos.map((_,i)=>`<div class="swipe-dot ${i===swipeIdx?'on':''}" onclick="goPhoto(${i})"></div>`).join('');
-    dots.style.display='flex';
-  } else { dots.style.display='none'; }
-  // thumbs sync
-  document.querySelectorAll('.thumb').forEach((t,i)=>{ t.classList.toggle('on',i===swipeIdx); });
-}
-function nextPhoto(){ if(swipeIdx<swipePhotos.length-1){swipeIdx++;renderSwipe();} }
-function prevPhoto(){ if(swipeIdx>0){swipeIdx--;renderSwipe();} }
-function goPhoto(i){ swipeIdx=i; renderSwipe(); }
 
+function renderSwipe() {
+  var src = swipePhotos[swipeIdx];
+  document.getElementById('mainImg').innerHTML = '<img src="' + src + '" alt="" style="width:100%;height:100%;object-fit:cover">';
+  var dots = document.getElementById('swipeDots');
+  if (!dots) {
+    dots = document.createElement('div');
+    dots.id = 'swipeDots';
+    dots.className = 'swipe-dots';
+    document.getElementById('mainImg').after(dots);
+  }
+  if (swipePhotos.length > 1) {
+    var dotsHtml = '';
+    for (var i = 0; i < swipePhotos.length; i++) {
+      dotsHtml += '<div class="swipe-dot' + (i === swipeIdx ? ' on' : '') + '" onclick="goPhoto(' + i + ')"></div>';
+    }
+    dots.innerHTML = dotsHtml;
+    dots.style.display = 'flex';
+  } else {
+    dots.style.display = 'none';
+  }
+  var thumbs = document.querySelectorAll('.thumb');
+  for (var i = 0; i < thumbs.length; i++) {
+    thumbs[i].classList.toggle('on', i === swipeIdx);
+  }
+  renderThumbs();
+}
+
+function renderThumbs() {
+  if (swipePhotos.length <= 1) {
+    document.getElementById('thumbsEl').innerHTML = '';
+    return;
+  }
+  var html = '';
+  for (var i = 0; i < swipePhotos.length; i++) {
+    html += '<div class="thumb' + (i === 0 ? ' on' : '') + '" onclick="goPhoto(' + i + ')">';
+    html += '<img src="' + swipePhotos[i] + '" alt="">';
+    html += '</div>';
+  }
+  document.getElementById('thumbsEl').innerHTML = html;
+}
+
+function nextPhoto() { if (swipeIdx < swipePhotos.length - 1) { swipeIdx++; renderSwipe(); } }
+function prevPhoto() { if (swipeIdx > 0) { swipeIdx--; renderSwipe(); } }
+function goPhoto(i) { swipeIdx = i; renderSwipe(); }
+
+renderGrid();
 </script>
 </body>
 </html>
